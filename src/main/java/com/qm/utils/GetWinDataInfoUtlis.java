@@ -16,7 +16,7 @@ public class GetWinDataInfoUtlis {
         //获取JVM相关
         Runtime r = Runtime.getRuntime();
         String jvmTotalMemory = String.valueOf(r.totalMemory());
-        String jamFreeMonery = String.valueOf(r.freeMemory());
+        String jvmFreeMonery = String.valueOf(r.freeMemory());
         String jvmAvailableProcessors = String.valueOf(r.availableProcessors());
         //获取操作系统相关
         Properties props = System.getProperties();
@@ -37,7 +37,7 @@ public class GetWinDataInfoUtlis {
         allDataMap.put("Ip",ip);//计算机IP
         allDataMap.put("HostName",addr.getHostName());//计算机主机名
         allDataMap.put("JvmTotalMemory",jvmTotalMemory);//JVM可以使用的总内存
-        allDataMap.put("JvmFreeMemory",jamFreeMonery);//JVM可以使用的剩余内存
+        allDataMap.put("JvmFreeMemory",jvmFreeMonery);//JVM可以使用的剩余内存
         allDataMap.put("JvmAvailableProcessors",jvmAvailableProcessors);//JVM可以使用的处理器个数
         allDataMap.put("OsName",props.getProperty("os.name"));//操作系统的名称
         allDataMap.put("OsArch",props.getProperty("os.arch"));//操作系统的架构
@@ -288,13 +288,13 @@ public class GetWinDataInfoUtlis {
                     || NetFlags.NULL_HWADDR.equals(ifconfig.getHwaddr())) {
                 continue;
             }
-            netMap.put("NetName_"+name,name);
-            netMap.put("IpAddr_"+name,ifconfig.getAddress());
-            netMap.put("NetMask_"+name,ifconfig.getNetmask());
-            netMap.put("NetBroadcast_"+name,ifconfig.getBroadcast());
-            netMap.put("NetMacAddr_"+name,ifconfig.getHwaddr());
-            netMap.put("NetDescription_"+name,ifconfig.getDescription());
-            netMap.put("NetType_"+name,ifconfig.getType());
+            netMap.put("NetName_"+name,name);// 网络设备名
+            netMap.put("IpAddr_"+name,ifconfig.getAddress());// IP地址
+            netMap.put("NetMask_"+name,ifconfig.getNetmask());// 子网掩码
+            netMap.put("NetBroadcast_"+name,ifconfig.getBroadcast());// 网关广播地址
+            netMap.put("NetMacAddr_"+name,ifconfig.getHwaddr());// 网卡MAC地址
+            netMap.put("NetDescription_"+name,ifconfig.getDescription());// 网卡描述信息
+            netMap.put("NetType_"+name,ifconfig.getType());//网卡类型
             /*System.out.println("网络设备名:    " + name);// 网络设备名
             System.out.println("IP地址:    " + ifconfig.getAddress());// IP地址
             System.out.println("子网掩码:    " + ifconfig.getNetmask());// 子网掩码
@@ -307,14 +307,14 @@ public class GetWinDataInfoUtlis {
                 continue;
             }
             NetInterfaceStat ifstat = sigar.getNetInterfaceStat(name);
-            netMap.put("RxPackets_"+name,String.valueOf(ifstat.getRxPackets()));
-            netMap.put("TxPackets_"+name,String.valueOf(ifstat.getTxPackets()));
-            netMap.put("RxBytes_"+name,String.valueOf(ifstat.getRxBytes()));
-            netMap.put("TxByte_"+name,String.valueOf(ifstat.getTxBytes()));
-            netMap.put("RxErrors_"+name,String.valueOf(ifstat.getRxErrors()));
-            netMap.put("TxErrors_"+name,String.valueOf(ifstat.getTxErrors()));
-            netMap.put("RxDropped_"+name,String.valueOf(ifstat.getRxDropped()));
-            netMap.put("TxDropped_"+name,String.valueOf(ifstat.getTxDropped()));
+            netMap.put("RxPackets_"+name,String.valueOf(ifstat.getRxPackets()));// 接收的总包裹数
+            netMap.put("TxPackets_"+name,String.valueOf(ifstat.getTxPackets()));// 发送的总包裹数
+            netMap.put("RxBytes_"+name,String.valueOf(ifstat.getRxBytes()));// 接收到的总字节数
+            netMap.put("TxByte_"+name,String.valueOf(ifstat.getTxBytes()));// 发送的总字节数
+            netMap.put("RxErrors_"+name,String.valueOf(ifstat.getRxErrors()));// 接收到的错误包数
+            netMap.put("TxErrors_"+name,String.valueOf(ifstat.getTxErrors()));// 发送数据包时的错误数
+            netMap.put("RxDropped_"+name,String.valueOf(ifstat.getRxDropped()));// 接收时丢弃的包数
+            netMap.put("TxDropped_"+name,String.valueOf(ifstat.getTxDropped()));// 发送时丢弃的包数
             /*System.out.println(name + "接收的总包裹数:" + ifstat.getRxPackets());// 接收的总包裹数
             System.out.println(name + "发送的总包裹数:" + ifstat.getTxPackets());// 发送的总包裹数
             System.out.println(name + "接收到的总字节数:" + ifstat.getRxBytes());// 接收到的总字节数

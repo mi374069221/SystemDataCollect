@@ -2,7 +2,6 @@ package com.qm.run;
 
 import com.google.gson.Gson;
 import com.qm.utils.GetWinDataInfoUtlis;
-import org.hyperic.sigar.CpuPerc;
 import java.io.*;
 import java.util.Map;
 
@@ -13,7 +12,9 @@ public class RunProject {
     public static void main(String[] args) {
         try {
             // 相对路径，如果没有则要建立一个新的output.txt文件
-            File writeName = new File("G:\\data.txt");
+            //File writeName = new File("G:\\data.txt");
+            File writeName = new File(args[0]);
+
             if(!writeName.exists()) {
                 // 创建新文件,有同名的文件的话直接覆盖
                 writeName.createNewFile();
@@ -25,7 +26,7 @@ public class RunProject {
             Gson json = new Gson();
 
             // System信息，从jvm获取
-            System.setProperty("java.library.path", "so");
+            System.setProperty("java.library.path", args[1]);
 
             GetWinDataInfoUtlis getWinDataInfo = new GetWinDataInfoUtlis();
 
@@ -75,8 +76,5 @@ public class RunProject {
             e1.printStackTrace();
         }
     }
-
-
-
 
 }

@@ -15,11 +15,12 @@ public class GetSystemData {
     public static void main(String[] args) {
         try {
             // System信息，从jvm获取
-           // System.setProperty("java.library.path", "so");
+            //System.setProperty("java.library.path", "so");
+            System.setProperty("java.library.path", args[0]);
             property();
             System.out.println("----------------------------------");
-            // cpu信息
-            cpu();
+           // cpu信息
+             cpu();
             System.out.println("----------------------------------");
             // 内存信息
             memory();
@@ -274,6 +275,4 @@ public class GetSystemData {
             System.out.println(cfg.getName() + "网卡类型" + cfg.getType());//
         }
     }
-
-
 }

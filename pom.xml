@@ -10,11 +10,11 @@
 <dependencies>
     <!--map转换json-->
     <!-- https://mvnrepository.com/artifact/com.alibaba/fastjson -->
-    <dependency>
+   <!-- <dependency>
         <groupId>com.alibaba</groupId>
         <artifactId>fastjson</artifactId>
         <version>1.2.41</version>
-    </dependency>
+    </dependency>-->
 
     <!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
     <dependency>
@@ -22,12 +22,136 @@
         <artifactId>gson</artifactId>
         <version>2.3.1</version>
     </dependency>
-    <!--sigar-->
-   <!-- <dependency>
+
+    <dependency>
         <groupId>org.fusesource</groupId>
         <artifactId>sigar</artifactId>
         <version>1.6.4</version>
-    </dependency>-->
+    </dependency>
+
+
 </dependencies>
+
+<!--将依赖jar包和程序分开-->
+    <!--<build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>2.4</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <classpathPrefix>lib/</classpathPrefix>
+                            <mainClass>com.qm.test.GetJavaPath</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.5.1</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                    <encoding>UTF-8</encoding>
+                    <compilerArguments>
+                        <extdirs>src\main\resources\conf/</extdirs>
+                    </compilerArguments>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>-->
+    <!--把所有的依赖jar都打进同一个jar包内-->
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.5.1</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                    <encoding>UTF-8</encoding>
+                    <!--<compilerArguments>
+                        <extdirs>target/classes/conf/sigar-amd64-winnt.dll</extdirs>
+                    </compilerArguments>-->
+                </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <configuration>
+                    <appendAssemblyId>false</appendAssemblyId>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                    <archive>
+                        <manifest>
+                            <!-- 此处指定main方法入口的class-->
+                            <mainClass>com.qm.run.RunProject</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>assembly</goal>
+                        </goals>
+                    </execution>
+
+                </executions>
+            </plugin>
+
+
+            <!--<plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>2.5</version>
+                <executions>
+                    <execution>
+                        <id>copy-dll</id>
+                        <phase>process-sources</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${basedir}/target/classes</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>${basedir}/src/main/resources/conf</directory>
+                                    <includes>
+                                        <include>**/*.dll</include>
+                                    </includes>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>-->
+
+
+        </plugins>
+
+        <resources>
+            <!--<resource>
+                //控制资源目录下要打包进去的文件，这里为全部打包;
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>-->
+
+            <!--细粒度筛选-->
+            <resource>
+                <directory>src\main\resources\lib</directory>
+                <targetPath>lib</targetPath>
+                <filtering>false</filtering>
+                <includes>
+                    <include>**/*.dll</include>
+                </includes>
+            </resource>
+        </resources>
+
+    </build>
 
 </project>
