@@ -42,9 +42,9 @@ public class GetWinDataInfoUtlis {
         allDataMap.put("OsName",props.getProperty("os.name"));//操作系统的名称
         allDataMap.put("OsArch",props.getProperty("os.arch"));//操作系统的架构
         allDataMap.put("OsVersion",props.getProperty("os.version"));//操作系统的版本
-        allDataMap.put("UserName",props.getProperty("user.name"));//用户的账户名称
-        allDataMap.put("UserHome",props.getProperty("user.home"));//用户的主目录
-        allDataMap.put("UserDir", props.getProperty("user.dir"));//用户的当前工作目录
+        allDataMap.put("UserAccountName",props.getProperty("user.name"));//用户的账户名称
+        allDataMap.put("UserAccountHome",props.getProperty("user.home"));//用户的主目录
+        allDataMap.put("UserAccountDir", props.getProperty("user.dir"));//用户的当前工作目录
         return allDataMap;
        /* System.out.println("用户名:    " + userName);
         System.out.println("计算机名:    " + computerName);

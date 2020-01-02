@@ -10,7 +10,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="SJ_Agent" target="1.5" />
+      <module name="SJ_Agent" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>
