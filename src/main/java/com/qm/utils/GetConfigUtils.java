@@ -1,10 +1,13 @@
 package com.qm.utils;
 
 import java.io.*;
-import java.util.Enumeration;
+
 import java.util.Iterator;
 import java.util.Properties;
 
+/**
+ * 获取配置文件
+ */
 public class GetConfigUtils {
 
 

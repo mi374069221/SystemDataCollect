@@ -3,7 +3,10 @@ package com.qm.utils;
 import java.io.*;
 import java.util.Properties;
 
-public class PropertyUtil {
+/**
+ * 获取properties配置文件
+ */
+public class PropertyClient {
     private static Properties props;
     static {
         loadProps();
@@ -15,7 +18,7 @@ public class PropertyUtil {
         InputStream in = null;
         try {
             // 第一种，通过类加载器进行获取properties文件流-->
-           // in = PropertyUtil.class.getClassLoader().getResourceAsStream("src\\main\\resources\\properties\\config.properties");
+           // in = PropertyClient.class.getClassLoader().getResourceAsStream("src\\main\\resources\\properties\\config.properties");
             // 第二种，通过类进行获取properties文件流-->
             in = new BufferedInputStream(new FileInputStream("src\\main\\resources\\properties\\config.properties"));
             props.load(in);
@@ -36,12 +39,14 @@ public class PropertyUtil {
         //System.out.println("properties文件内容：" + props);
     }
 
+
     /**
      * 根据key获取配置文件中的属性
      */
-    public static String getProperty(String key){
+    public static String getPropertyClient(String key){
         if(null == props) {
             loadProps();
+
         }
         return props.getProperty(key);
     }
@@ -49,11 +54,12 @@ public class PropertyUtil {
     /**
      * 根据key获取配置文件中的属性，当为null时返回指定的默认值
      */
-    public static String getProperty(String key, String defaultValue) {
+    public static String getPropertyClient(String key, String defaultValue) {
         if(null == props) {
             loadProps();
         }
         return props.getProperty(key, defaultValue);
     }
+
 
 }

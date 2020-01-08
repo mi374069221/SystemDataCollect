@@ -1,14 +1,21 @@
 package com.qm.utils;
 
+import com.google.gson.Gson;
 import org.hyperic.sigar.*;
+import sun.applet.Main;
 
+import java.io.*;
 import java.net.InetAddress;
+import java.net.Socket;
 import java.text.DecimalFormat;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Properties;
 
-
+/**
+ * 获取服务器信息
+ */
 public class GetWinDataInfoUtlis {
     Sigar sigar = new Sigar();
 
@@ -328,4 +335,93 @@ public class GetWinDataInfoUtlis {
     }
 
 
+    public void saveDataToServer()  {
+        try {
+         /*一：获取服务器数据*/
+        //建立一个output.txt文件
+        //File writeName = new File("G:\\data.txt");
+        GetWinDataInfoUtlis getWinDataInfo = new GetWinDataInfoUtlis();
+        Map<String, String> propertyMap = getWinDataInfo.property();
+        // System.out.println(propertyMap.get("Ip"));
+        String dataType = PropertyServer.getPropertyServer("sys.data.type");
+        String dataPath = PropertyClient.getPropertyClient("app.log.path")+
+                          File.separator+
+                          PropertyClient.getPropertyClient("app.name")+"_"+
+                          propertyMap.get("Ip")+"."+dataType;
+        String value = new String(dataPath.getBytes("iso-8859-1"),"utf-8"); //解决中文文件名乱码问题
+        System.out.println(value);
+        File writeName = new File(value);
+
+            if(!writeName.exists()) {
+            // 创建新文件,有同名的文件的话直接覆盖
+            writeName.createNewFile();
+        }
+        //FileWriter writer = new FileWriter(writeName);
+        //BufferedWriter out = new BufferedWriter(writer);
+        //解决文件内部中文乱码问题
+        BufferedWriter out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(writeName, true),"UTF-8"));
+
+
+            //创建json对象
+        Gson json = new Gson();
+        // System信息，从jvm获取
+        String sittingPath = PropertyClient.getPropertyClient("sitting.path");
+        System.setProperty("java.library.path", sittingPath);
+
+        String name= PropertyClient.getPropertyClient("app.name");
+        String appName = new String(name.getBytes("iso-8859-1"),"utf-8");
+        Map<String,String> appMap = new HashMap<>();
+        appMap.put("AppName",appName);
+        out.write(json.toJson(appMap));
+        out.newLine();
+        //将基本数据转换为json格式并写入文件
+        out.write(json.toJson(propertyMap));
+        out.newLine();
+            /*for (String s : property.keySet()) {
+                System.out.println(s+":"+property.get(s));
+                //out.write(s+":"+property.get(s));
+            }*/
+
+        Map<String, String> memoryMap = getWinDataInfo.memory();
+        //将内存数据转换为json格式并写入文件
+        out.write(json.toJson(memoryMap));
+        out.newLine();
+
+        Map<String, String> cpuMap = getWinDataInfo.cpu();
+        //将cpu数据转换为json格式并写入文件
+        out.write(json.toJson(cpuMap));
+        out.newLine();
+
+        Map<String, String> osMap = getWinDataInfo.os();
+        //将操作系统数据转换为json格式并写入文件
+        out.write(json.toJson(osMap));
+        out.newLine();
+
+        Map<String, String> whoMap = getWinDataInfo.who();
+        //将用户数据转换为json并写入文件
+        out.write(json.toJson(whoMap));
+        out.newLine();
+
+        Map<String, String> fileMap = getWinDataInfo.file();
+        //将磁盘信息转换为json并写入文件
+        out.write(json.toJson(fileMap));
+        out.newLine();
+
+        Map<String, String> netMap = getWinDataInfo.net();
+        //将网络数据转换为json并写入文件
+        out.write(json.toJson(netMap));
+        out.newLine();
+
+        out.flush(); // 把缓存区内容压入文件
+        out.close();
+        System.out.println("数据写入完成。");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void main(String[] args) {
+        GetWinDataInfoUtlis g = new GetWinDataInfoUtlis();
+        g.saveDataToServer();
+    }
 }

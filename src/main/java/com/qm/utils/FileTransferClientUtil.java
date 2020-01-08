@@ -3,7 +3,6 @@ package com.qm.utils;
 import java.io.*;
 import java.net.Socket;
 import java.util.Map;
-import java.util.Properties;
 
 /**
  * 文件传输Client端
@@ -15,8 +14,8 @@ import java.util.Properties;
  */
 public class FileTransferClientUtil extends Socket {
 
-    private static final String SERVER_IP = PropertyUtil.getProperty("server.ip"); // 服务端IP
-    private static final int SERVER_PORT =Integer.parseInt(PropertyUtil.getProperty("server.port")) ; // 服务端端口
+    private static final String SERVER_IP = PropertyServer.getPropertyServer("server.ip"); // 服务端IP
+    private static final int SERVER_PORT =Integer.parseInt(PropertyServer.getPropertyServer("server.port")) ; // 服务端端口
 
     private Socket client;
 
@@ -45,8 +44,8 @@ public class FileTransferClientUtil extends Socket {
             /*系统信息传输到服务端*/
             GetWinDataInfoUtlis getWinDataInfo = new GetWinDataInfoUtlis();
             Map<String, String> propertyMap = getWinDataInfo.property();
-            String dataType = PropertyUtil.getProperty("sys.data.type");
-            String dataPath = PropertyUtil.getProperty("sys.data.path")+propertyMap.get("Ip")+"."+dataType;
+            String dataType = PropertyServer.getPropertyServer("sys.data.type");
+            String dataPath = PropertyServer.getPropertyServer("app.log.path")+propertyMap.get("Ip")+"."+dataType;
 
             File sysFile = new File(dataPath);
             if(sysFile.exists()) {
@@ -76,7 +75,7 @@ public class FileTransferClientUtil extends Socket {
 
             /*应用日志传输到服务端*/
             //创建一个读取流对象和文件相关联。
-            String logPath = PropertyUtil.getProperty("app.log.path");
+            String logPath = PropertyClient.getPropertyClient("app.log.path");
             FileReader fr=new FileReader(logPath);
 
             //为了提高效率，加入缓冲技术，将字符读取流对象作为参数传递给缓冲对象的构造函数

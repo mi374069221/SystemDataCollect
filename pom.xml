@@ -176,11 +176,11 @@
 
             <!--细粒度筛选-->
             <resource>
-                <directory>src\main\resources\lib</directory>
-                <targetPath>lib</targetPath>
+                <directory>src\main\resources\properties</directory>
+                <targetPath>properties</targetPath>
                 <filtering>false</filtering>
                 <includes>
-                    <include>**/*.dll</include>
+                    <include>**/*.properties</include>
                 </includes>
             </resource>
         </resources>
