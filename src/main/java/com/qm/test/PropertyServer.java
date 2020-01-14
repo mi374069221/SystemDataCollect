@@ -1,4 +1,4 @@
-package com.qm.utils;
+package com.qm.test;
 
 import java.io.*;
 import java.util.Properties;
@@ -6,47 +6,43 @@ import java.util.Properties;
 /**
  * 获取properties配置文件
  */
-public class PropertyClient {
+public class PropertyServer {
     private static Properties props;
     static {
-        loadProps();
+        loadPropsServer();
     }
 
-    synchronized static private void loadProps(){
+
+    synchronized static private void loadPropsServer(){
         //System.out.println("开始加载properties文件内容.......");
         props = new Properties();
-        InputStream in = null;
+        InputStream ins = null;
         try {
-            // 第一种，通过类加载器进行获取properties文件流-->
-           // in = PropertyClient.class.getClassLoader().getResourceAsStream("src\\main\\resources\\properties\\config.properties");
-            // 第二种，通过类进行获取properties文件流-->
-            in = new BufferedInputStream(new FileInputStream("src\\main\\resources\\properties\\config.properties"));
-            props.load(in);
+            ins = new BufferedInputStream(new FileInputStream("src\\main\\resources\\properties\\server.properties"));
+            props.load(ins);
         } catch (FileNotFoundException e) {
             System.out.println("jdbc.properties文件未找到");
         } catch (IOException e) {
             System.out.println("出现IOException");
         } finally {
             try {
-                if(null != in) {
-                    in.close();
+                if(null != ins) {
+                    ins.close();
                 }
             } catch (IOException e) {
                 System.out.println("jdbc.properties文件流关闭出现异常");
             }
         }
-        //System.out.println("加载properties文件内容完成...........");
-        //System.out.println("properties文件内容：" + props);
     }
 
 
     /**
      * 根据key获取配置文件中的属性
      */
-    public static String getPropertyClient(String key){
+    public static String getPropertyServer(String key){
         if(null == props) {
-            loadProps();
 
+            loadPropsServer();
         }
         return props.getProperty(key);
     }
@@ -54,12 +50,12 @@ public class PropertyClient {
     /**
      * 根据key获取配置文件中的属性，当为null时返回指定的默认值
      */
-    public static String getPropertyClient(String key, String defaultValue) {
+    public static String getPropertyServer(String key, String defaultValue) {
         if(null == props) {
-            loadProps();
+
+            loadPropsServer();
         }
         return props.getProperty(key, defaultValue);
     }
-
 
 }

@@ -1,12 +1,12 @@
 package com.qm.utils;
 
 import com.google.gson.Gson;
+import com.qm.test.PropertyClient;
+import com.qm.test.PropertyServer;
 import org.hyperic.sigar.*;
-import sun.applet.Main;
 
 import java.io.*;
 import java.net.InetAddress;
-import java.net.Socket;
 import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -343,13 +343,13 @@ public class GetWinDataInfoUtlis {
         GetWinDataInfoUtlis getWinDataInfo = new GetWinDataInfoUtlis();
         Map<String, String> propertyMap = getWinDataInfo.property();
         // System.out.println(propertyMap.get("Ip"));
-        String dataType = PropertyServer.getPropertyServer("sys.data.type");
-        String dataPath = PropertyClient.getPropertyClient("app.log.path")+
+        String dataType = PropertiesUtils.getPropertiesFromUserDir("server.properties").getProperty("sys.data.type");
+        String dataPath = PropertiesUtils.getPropertiesFromUserDir("config.properties").getProperty("app.log.path")+
                           File.separator+
-                          PropertyClient.getPropertyClient("app.name")+"_"+
+                          PropertiesUtils.getPropertiesFromUserDir("config.properties").getProperty("app.name")+"_"+
                           propertyMap.get("Ip")+"."+dataType;
         String value = new String(dataPath.getBytes("iso-8859-1"),"utf-8"); //解决中文文件名乱码问题
-        System.out.println(value);
+        //System.out.println(value);
         File writeName = new File(value);
 
             if(!writeName.exists()) {
@@ -365,12 +365,12 @@ public class GetWinDataInfoUtlis {
             //创建json对象
         Gson json = new Gson();
         // System信息，从jvm获取
-        String sittingPath = PropertyClient.getPropertyClient("sitting.path");
+        String sittingPath =  PropertiesUtils.getPropertiesFromUserDir("server.properties").getProperty("sitting.path");
         System.setProperty("java.library.path", sittingPath);
 
-        String name= PropertyClient.getPropertyClient("app.name");
+        String name= PropertiesUtils.getPropertiesFromUserDir("config.properties").getProperty("app.name");
         String appName = new String(name.getBytes("iso-8859-1"),"utf-8");
-        Map<String,String> appMap = new HashMap<>();
+        Map<String,String> appMap = new HashMap<String, String>();
         appMap.put("AppName",appName);
         out.write(json.toJson(appMap));
         out.newLine();

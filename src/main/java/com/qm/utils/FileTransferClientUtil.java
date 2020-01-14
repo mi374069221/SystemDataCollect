@@ -1,5 +1,8 @@
 package com.qm.utils;
 
+import com.qm.test.PropertyClient;
+import com.qm.test.PropertyServer;
+
 import java.io.*;
 import java.net.Socket;
 import java.util.Map;

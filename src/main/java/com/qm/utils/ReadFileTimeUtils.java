@@ -12,8 +12,8 @@ public class ReadFileTimeUtils {
     /**
      * 读取文件创建时间
      */
-    public static void getCreateTime(){
-        String filePath = "G:\\192.168.40.1.txt";
+    public static String getCreateTime(String file){
+        String filePath = file;
         String strTime = null;
         try {
             Process p = Runtime.getRuntime().exec("cmd /C dir "
@@ -31,40 +31,43 @@ public class ReadFileTimeUtils {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println("创建时间    " + strTime);
+        //System.out.println("创建时间    " + strTime);
+        return strTime;
     }
     /**
      * 读取文件修改时间的方法1
      */
     @SuppressWarnings("deprecation")
-    public static void getModifiedTime_1(){
-        File f = new File("G:\\192.168.40.1.txt");
+    public static String getModifiedTime_1(String file){
+        File f = new File(file);
         Calendar cal = Calendar.getInstance();
         long time = f.lastModified();
         cal.setTimeInMillis(time);
         //此处toLocalString()方法是不推荐的，但是仍可输出
-        System.out.println("修改时间[1] " + cal.getTime().toLocaleString());
+        return cal.getTime().toLocaleString();
+        //System.out.println("修改时间[1] " + cal.getTime().toLocaleString());
     }
 
     /**
      * 读取修改时间的方法2
      */
-    public static void getModifiedTime_2(){
-        File f = new File("G:\\192.168.40.1.txt");
+    public static String getModifiedTime_2(String file){
+        File f = new File(file);
         Calendar cal = Calendar.getInstance();
         long time = f.lastModified();
-        System.out.println(time);
+        //System.out.println(time);
        /* Date date = new Date();
         long time1 = date.getTime();
         System.out.println(time1);*/
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         cal.setTimeInMillis(time);
-        System.out.println("修改时间[2] " + formatter.format(cal.getTime()));
+        //System.out.println("修改时间[2] " + formatter.format(cal.getTime()));
+        return formatter.format(cal.getTime());
     }
 
     public static void main(String[] args) {
-        getCreateTime();
-        getModifiedTime_1();
-        getModifiedTime_2();
+        getCreateTime("G:\\大米\\192.168.40.1.txt");
+        getModifiedTime_1("G:\\大米\\192.168.40.1.txt");
+        getModifiedTime_2("G:\\大米\\192.168.40.1.txt");
     }
 }

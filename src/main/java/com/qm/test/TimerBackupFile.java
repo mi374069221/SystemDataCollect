@@ -25,7 +25,7 @@ public class TimerBackupFile {
 
 class BackupFile extends TimerTask {
     String strPathSource,strPathTar;
-    HashMap<String,String> hm = new HashMap<>();
+    HashMap<String,String> hm = new HashMap<String, String>();
 
     public BackupFile(String strPathSource,String strPathTar){
         this.strPathSource = strPathSource;
