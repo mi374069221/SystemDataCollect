@@ -2,6 +2,10 @@ package com.qm.test;
 
 import org.hyperic.sigar.*;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.InputStreamReader;
 import java.net.InetAddress;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -16,7 +20,10 @@ public class GetSystemData {
         try {
             // System信息，从jvm获取
             //System.setProperty("java.library.path", "so");
-            System.setProperty("java.library.path", args[0]);
+           // System.setProperty("java.library.path", args[0]);
+
+            System.out.println(getMotherboardSN());
+            System.out.println("----------------------------------");
             property();
             System.out.println("----------------------------------");
            // cpu信息
@@ -44,6 +51,40 @@ public class GetSystemData {
             e1.printStackTrace();
         }
     }
+    //获取本地主板序列号
+    public static String getMotherboardSN() {
+        String result = "";
+        try {
+            File file = File.createTempFile("realhowto", ".vbs");
+            file.deleteOnExit();
+            FileWriter fw = new java.io.FileWriter(file);
+
+            String vbs = "Set objWMIService = GetObject(\"winmgmts:\\\\.\\root\\cimv2\")\n"
+                    + "Set colItems = objWMIService.ExecQuery _ \n"
+                    + "   (\"Select * from Win32_BaseBoard\") \n"
+                    + "For Each objItem in colItems \n"
+                    + "    Wscript.Echo objItem.SerialNumber \n"
+                    + "    exit for  ' do the first cpu only! \n" + "Next \n";
+
+            fw.write(vbs);
+            fw.close();
+            String path = file.getPath().replace("%20", " ");
+            Process p = Runtime.getRuntime().exec(
+                    "cscript //NoLogo " + path);
+            BufferedReader input = new BufferedReader(new InputStreamReader(
+                    p.getInputStream()));
+            String line;
+            while ((line = input.readLine()) != null) {
+                result += line;
+            }
+            input.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result.trim();
+    }
+
+
 
     private static void property() throws Exception {
         Runtime r = Runtime.getRuntime();

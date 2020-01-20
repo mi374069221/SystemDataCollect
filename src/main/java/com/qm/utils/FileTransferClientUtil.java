@@ -1,5 +1,6 @@
 package com.qm.utils;
 
+import com.qm.test.GetWinDataInfoUtlis;
 import com.qm.test.PropertyClient;
 import com.qm.test.PropertyServer;
 

@@ -17,12 +17,13 @@
          </dependency>-->
 
         <!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
+        <!--json转换-->
         <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
             <version>2.3.1</version>
         </dependency>
-
+       <!--获取服务器信息-->
         <dependency>
             <groupId>org.fusesource</groupId>
             <artifactId>sigar</artifactId>
@@ -42,26 +43,9 @@
             <version>1.7.30</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/org.wso2.apache.httpcomponents/httpclient -->
-        <dependency>
-            <groupId>org.wso2.apache.httpcomponents</groupId>
-            <artifactId>httpclient</artifactId>
-            <version>4.3.1.wso2v1</version>
-        </dependency>
 
 
-        <!-- https://mvnrepository.com/artifact/org.apache.httpcomponents/httpmime -->
-        <dependency>
-            <groupId>org.apache.httpcomponents</groupId>
-            <artifactId>httpmime</artifactId>
-            <version>4.4.1</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-context</artifactId>
-            <version>5.1.3.RELEASE</version>
-        </dependency>
-
+        <!--json转map-->
         <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core -->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
@@ -117,7 +101,7 @@
         </plugins>
     </build>-->
     <!--第二种，把所有的依赖jar都打进同一个jar包内-->
-   <!--    <build>
+      <!-- <build>
            <plugins>
                <plugin>
                    <artifactId>maven-compiler-plugin</artifactId>
@@ -141,7 +125,7 @@
                        <archive>
                            <manifest>
                                &lt;!&ndash; 此处指定main方法入口的class&ndash;&gt;
-                               <mainClass>com.qm.run.RunProject</mainClass>
+                               <mainClass>com.qm.utils.GetWinDataInfoUtilinClass>
                            </manifest>
                        </archive>
                    </configuration>
@@ -287,7 +271,7 @@
                         </descriptorRefs>
                         <archive>
                             <manifest>
-                                <mainClass>com.qm.run.RunProject</mainClass>
+                                <mainClass>com.qm.utils.GetWinDataInfoUtil</mainClass>
                             </manifest>
                         </archive>
                     </configuration>
@@ -342,6 +326,25 @@
                                 <resources>
                                     <resource>
                                         <directory>/sitting</directory>
+                                    </resource>
+                                </resources>
+                            </configuration>
+                        </execution>
+
+                        <execution>
+                            <id>copy-doc</id>
+                            <phase>package</phase>
+                            <goals>
+                                <goal>copy-resources</goal>
+                            </goals>
+                            <configuration>
+                                <encoding>UTF-8</encoding>
+                                <outputDirectory>
+                                    ${project.build.directory}/doc
+                                </outputDirectory>
+                                <resources>
+                                    <resource>
+                                        <directory>/doc</directory>
                                     </resource>
                                 </resources>
                             </configuration>
